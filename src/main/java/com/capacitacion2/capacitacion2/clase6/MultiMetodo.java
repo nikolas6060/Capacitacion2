@@ -31,5 +31,13 @@ public class MultiMetodo {
 		return dividendo/divisor;
 	}
 	
+	public void timeout() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 }

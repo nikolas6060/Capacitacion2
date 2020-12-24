@@ -13,11 +13,12 @@ public class ManagerDriver {
 		this.urlPagina = urlPagina;
 		seleccionarNavegador();
 	}
-	
+	 
 	private void seleccionarNavegador() {
 		switch (nombreNavegador.toLowerCase().trim()) {
 		case "google":
-			System.setProperty("webdriver.chrome.driver", "src\\main\\java\\resources\\drivers\\chromedriver.exe");
+//			System.setProperty("webdriver.chrome.driver", "src\\main\\java\\resources\\drivers\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
 			webDriver = new ChromeDriver();
 			break;
 		case "firefox":
@@ -38,7 +39,8 @@ public class ManagerDriver {
 	}
 	
 	public void cerrarNavegador() {
-		webDriver.close();
+		//webDriver.close();
+		webDriver.quit();
 	}
 
 	public WebDriver getWebDriver() {

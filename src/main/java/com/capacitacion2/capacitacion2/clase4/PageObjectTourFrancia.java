@@ -13,7 +13,7 @@ public class PageObjectTourFrancia extends PageFactory {
 	private WebDriver webDriver;
 
 	public PageObjectTourFrancia(WebDriver webDriver) {
-		PageFactory.initElements(webDriver, this);
+		PageFactory.initElements(webDriver, this); 
 	}
 
 	@FindBy(id = "selectweb")

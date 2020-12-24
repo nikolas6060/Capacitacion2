@@ -2,14 +2,40 @@ package com.capacitacion2.capacitacion2;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import com.capacitacion2.capacitacion2.clase6.MultiMetodo;
 
+@RunWith(value = Parameterized.class)
 public class MultiMetodoTest {
 
-	MultiMetodo objMetodo;
+	private MultiMetodo objMetodo;
+	private int esperado;
+	private int valorActual;
+	private int variableA;
+	private int variableB;
+	
+	public MultiMetodoTest (int esperado, int variableA, int variableB) {
+		this.esperado = esperado;
+		this.variableA = variableA;
+		this.variableB = variableB;
+	}
+	
+	@Parameters
+	public static Iterable datosEntrada() {
+		List<Object[]> listaDeValores = new ArrayList<>();
+		//listaDeValores.add((Object[]) new Object[] (2,10,5));
+		//listaDeValores.add(new Object[] (3,7,21));
+		//listaDeValores.add(new Object[] (5,100,20));
+		return listaDeValores;
+	}	
 	
 	@Before
 	public void inicializarPrecondiciones() {
@@ -58,5 +84,11 @@ public class MultiMetodoTest {
 		int resultado = objMetodo.dividirInt(10,2);
 		assertEquals(esperado, resultado);
 	}
+	
+	@Test(timeout = 2000)
+	public void testTimeout() {
+		objMetodo.timeout();
+	}
+
 
 }

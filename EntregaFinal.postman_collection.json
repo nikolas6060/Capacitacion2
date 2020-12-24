@@ -1,0 +1,118 @@
+{
+	"info": {
+		"_postman_id": "d834fbcd-0b15-456c-8ad9-7b60e0f5e76c",
+		"name": "EntregaFinal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Consulta tipo documento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/RegistroClientes/tipo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"RegistroClientes",
+						"tipo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Nuevo cliente",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var numero = parseInt(postman.getEnvironmentVariable('numcedula'))+1;\r",
+							"console.log(\"Cedula: \"+numero);\r",
+							"postman.setEnvironmentVariable('numcedula',numero);\r",
+							"\r",
+							"var telefono = Math.floor(Math.random() * (3333333333 - 3555555555)) + 3333333333;\r",
+							"console.log('Telefono: ',telefono);\r",
+							"postman.setEnvironmentVariable('telefono',telefono);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var json = pm.response.json();\r",
+							"\r",
+							"pm.globals.get(\"variable_key\");\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validación Cedula\", function () {\r",
+							"    //variable del environment\r",
+							"    var cedula2 = parseInt(postman.getEnvironmentVariable('numcedula'),10);\r",
+							"    //comparacion del enviado vs la variable recibida\r",
+							"    pm.expect(json.idCedula).to.eql(cedula2);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validación Correo\", function () {\r",
+							"    pm.expect(json.correo).to.eql(\"prueba@correo.com\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validación Celular\", function () {\r",
+							"    var celular2 = postman.getEnvironmentVariable('telefono');\r",
+							"    pm.expect(json.celular).to.eql(celular2);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idCedula\": {{numcedula}},\r\n    \"correo\": \"prueba@correo.com\",\r\n    \"celular\": \"{{telefono}}\",\r\n    \"tipo\": {\r\n        \"id\": 1,\r\n        \"tipoDocumento\": \"Cédula de ciudadanía\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/RegistroClientes/guardar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"RegistroClientes",
+						"guardar"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
